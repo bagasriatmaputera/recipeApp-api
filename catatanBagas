@@ -1,0 +1,4 @@
+====== FILAMENT ======
+1. SETELAH INSTAL DAN BUAT USER BUAT RESOURCE YANG DIBUTUHKAN SEPERTI CATEGORY, INGREDIENT, RECIPE DLL
+2. setelah sukse buat resource, maka pastikan terhubung dengan model dan atur input form, validation, dan column.
+3. agar gambar terlihat ubah env. FILESYSTEM = public setelah melakukan link storage

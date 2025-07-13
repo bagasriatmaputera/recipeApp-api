@@ -14,4 +14,8 @@ class RecipeTutorial extends Model
         'name',
         'recipe_id'
     ];
+
+    public function recipe (){
+        return $this->belongsTo(Recipe::class,'recipe_id');
+    }
 }

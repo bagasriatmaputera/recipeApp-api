@@ -14,6 +14,8 @@ use App\Filament\Resources\CategoryResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\CategoryResource\RelationManagers;
 use Filament\Forms\Components\FileUpload;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\TextColumn;
 
 class CategoryResource extends Resource
 {
@@ -26,7 +28,11 @@ class CategoryResource extends Resource
         return $form
             ->schema([
                 TextInput::make('name')->required()->helperText('Masukan kategori nama dengan benar'),
-                FileUpload::make('icon')->required(),
+                FileUpload::make('icon')
+                ->image()
+                ->required()
+                ->disk('public')
+                ->directory('categories'),
             ]);
     }
 
@@ -34,7 +40,8 @@ class CategoryResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('name')->searchable(),
+                ImageColumn::make('icon'),
             ])
             ->filters([
                 //

@@ -6,9 +6,13 @@ use App\Filament\Resources\RecipeAuthorResource\Pages;
 use App\Filament\Resources\RecipeAuthorResource\RelationManagers;
 use App\Models\RecipeAuthor;
 use Filament\Forms;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -23,7 +27,12 @@ class RecipeAuthorResource extends Resource
     {
         return $form
             ->schema([
-                //
+                TextInput::make('name')
+                    ->required()
+                    ->helperText('Masukan nama yang benar'),
+                FileUpload  ::make('photo')
+                    ->image()
+                    ->required()
             ]);
     }
 
@@ -31,7 +40,8 @@ class RecipeAuthorResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('name')->searchable(),
+                ImageColumn::make('photo')->circular()
             ])
             ->filters([
                 //

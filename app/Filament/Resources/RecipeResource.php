@@ -6,6 +6,7 @@ use Filament\Forms;
 use Filament\Tables;
 use App\Models\Recipe;
 use Filament\Forms\Form;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Select;
@@ -18,6 +19,9 @@ use App\Filament\Resources\RecipeResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\RecipeResource\RelationManagers;
 use App\Filament\Resources\RecipeResource\RelationManagers\TutorialsRelationManager;
+use App\Models\Ingredient;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 
 class RecipeResource extends Resource
 {
@@ -36,8 +40,8 @@ class RecipeResource extends Resource
                     ->image()
                     ->required(),
                 Textarea::make('about')
-                ->rows(10)
-                ->cols(20)
+                    ->rows(10)
+                    ->cols(20)
                     ->required(),
 
                 Repeater::make('recipeIngredients')
@@ -56,22 +60,22 @@ class RecipeResource extends Resource
                     ]),
 
                 Select::make('recipe_author_id')
-                ->relationship('author','name')
-                ->searchable()
-                ->preload()
-                ->required(),
+                    ->relationship('author', 'name')
+                    ->searchable()
+                    ->preload()
+                    ->required(),
 
                 Select::make('category_id')
-                ->relationship('category','name')
-                ->searchable()
-                ->preload()
-                ->required(),
+                    ->relationship('category', 'name')
+                    ->searchable()
+                    ->preload()
+                    ->required(),
 
                 FileUpload::make('url_file')
-                ->nullable(),
+                    ->nullable(),
 
                 TextInput::make('url_video')
-                ->nullable()
+                    ->nullable()
 
             ]);
     }
@@ -80,10 +84,38 @@ class RecipeResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('name')
+                    ->searchable(),
+                TextColumn::make('category.name')
+                    ->searchable(),
+                ImageColumn::make('author.photo')
+                    ->circular(),
+                ImageColumn::make('thumbnail')
+                    ->circular()
             ])
             ->filters([
-                //
+                // FIlter by Author
+                SelectFilter::make('recipe_author_id')
+                    ->label('Author')
+                    ->relationship('author', 'name'),
+                // FIlter by Category
+                SelectFilter::make('category_id')
+                    ->label('Category')
+                    ->relationship('category', 'name'),
+                // FIlter by Ingredient
+                SelectFilter::make('ingredient_id')
+                    ->label('Ingredient')
+                    ->options(fn() => Ingredient::orderBy('name')->pluck('name', 'id'))
+                    ->searchable()
+                    ->placeholder('Pilih bahan...')
+                    ->query(function (Builder $query, array $data) {
+                        if ($data['value']) {
+                            $query->whereHas('recipeIngredients', function ($query) use ($data) {
+                                $query->where('ingredient_id', $data['value']);
+                            });
+                        }
+                    }),
+
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

@@ -2,3 +2,9 @@
 1. SETELAH INSTAL DAN BUAT USER BUAT RESOURCE YANG DIBUTUHKAN SEPERTI CATEGORY, INGREDIENT, RECIPE DLL
 2. setelah sukse buat resource, maka pastikan terhubung dengan model dan atur input form, validation, dan column.
 3. agar gambar terlihat ubah env. FILESYSTEM = public setelah melakukan link storage
+4. Pada Recipe tambahkan  filter untuk recipe author dan category nya dengan cara menambahkan filter di RecipeResource
+5. UNtuk FIlter ingredient haru menggunankan function query karen relasinya many to many
+
+===== API =====
+6. BUat API utnuk kategory dengan make:resource Api/CategoryResource kemudian define data nya
+7. Buat Api Controllernys make:controller Api/CategoryController kemudian buat functin index,show

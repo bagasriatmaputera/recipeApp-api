@@ -21,6 +21,7 @@ class CategoryController extends Controller
     {
         // mengurangi lazy loading dengan load
         $category->load('recipes');
+        $category->loadCount('recipes');
         // ubah data kategori menjadi format JSON
         return new CategoryResource($category);
     }

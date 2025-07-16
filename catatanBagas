@@ -1,10 +1,26 @@
-====== FILAMENT ======
-1. SETELAH INSTAL DAN BUAT USER BUAT RESOURCE YANG DIBUTUHKAN SEPERTI CATEGORY, INGREDIENT, RECIPE DLL
-2. setelah sukse buat resource, maka pastikan terhubung dengan model dan atur input form, validation, dan column.
-3. agar gambar terlihat ubah env. FILESYSTEM = public setelah melakukan link storage
-4. Pada Recipe tambahkan  filter untuk recipe author dan category nya dengan cara menambahkan filter di RecipeResource
-5. UNtuk FIlter ingredient haru menggunankan function query karen relasinya many to many
+✅ FILAMENT
+1. Setelah instalasi dan membuat user admin, buat resource yang dibutuhkan seperti Category, Ingredient, Recipe, dan lainnya.
 
-===== API =====
-6. BUat API utnuk kategory dengan make:resource Api/CategoryResource kemudian define data nya
-7. Buat Api Controllernys make:controller Api/CategoryController kemudian buat functin index,show
+2. Setelah resource berhasil dibuat, pastikan sudah terhubung dengan model terkait. Kemudian atur input form, validasi, dan kolom tampilannya.
+
+3. Agar gambar dapat ditampilkan, ubah .env menjadi FILESYSTEM_DISK=public dan jalankan perintah php artisan storage:link.
+
+4. Pada RecipeResource, tambahkan filter untuk Author dan Category dengan menggunakan SelectFilter dan relasi yang sesuai.
+
+5. Untuk filter Ingredient, gunakan method query() karena relasinya bersifat many-to-many.
+
+✅ API
+🔔 Catatan Penting (NB):
+Jika kamu membuat master resource yang memiliki banyak relasi anak, maka setiap relasi harus memiliki resource sendiri terlebih dahulu, agar bisa ditampilkan menggunakan ->whenLoaded(...) di dalam master resource.
+
+6. Buat API Resource untuk Category menggunakan php artisan make:resource Api/CategoryResource, lalu atur data yang ingin ditampilkan di dalamnya.
+
+7. Buat Controller-nya dengan php artisan make:controller Api/CategoryController, lalu buat method index dan show untuk menampilkan data.
+
+8. Instal Laravel Sanctum atau API support lain jika diperlukan dengan perintah php artisan install:api (atau sesuai kebutuhan autentikasi API).
+
+9. Buat juga resource untuk Ingredient, RecipeIngredient, RecipePhoto, RecipeTutorial, dan RecipeAuthor, lalu sesuaikan return datanya dengan kebutuhan masing-masing.
+
+10. Pada Category uncommand recipes karena recipe resource sudah berhasil dibuat
+
+

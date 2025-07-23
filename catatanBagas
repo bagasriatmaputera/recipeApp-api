@@ -23,4 +23,14 @@ Jika kamu membuat master resource yang memiliki banyak relasi anak, maka setiap 
 
 10. Pada Category uncommand recipes karena recipe resource sudah berhasil dibuat
 
+11. buat Api untuk Search dengan buat Search Controller, dan buat endpoint kemudian test di postman dengan url = http://localhost/recipeApp/public/api/recipe/search?query=
+
+12. pada Controller searchController buat public function index dan mendapatkan data dengan author
+public function index (Request $request){
+        // input adalah key pada url
+        $quary = $request->input('query');
+        $recipes = Recipe::with('author')->where('name', 'LIKE', "%{$quary}%")->get();
+        return RecipeResource::collection($recipes);
+    }
+
 

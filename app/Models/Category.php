@@ -18,7 +18,7 @@ class Category extends Model
     ];
 
     public function recipes (){
-        return $this->hasMany(Recipe::class);
+        return $this->hasMany(Recipe::class)->orderBy('id');
     }
 
     public function setNameAttribute($value){

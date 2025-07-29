@@ -33,4 +33,52 @@ public function index (Request $request){
         return RecipeResource::collection($recipes);
     }
 
+13. Pada Catgory Controller teparnya di public function show, agar data author muncul maka tambahkan relasi nya
+     public function show(Category $category)
+    {
+        // mengurangi lazy loading dengan load
+        $category->load(['recipes.category','recipes.author'])->orderBy('id');
+        $category->loadCount('recipes');
+        // ubah data kategori menjadi format JSON
+        return new CategoryResource($category);
+    }
+
+===== Buat CORS untuk menentukan akses API yang kita buat =====
+14. Buat CORS dengan php artisan config:publish cors
+
+15. seting bagian 'allowed_origins' => ['*'], cth:
+    'allowed_origins' => ['https://bagasresep.id'],
+
+    maka hnya alamt itu saja yang boleh memakai API ini
+
+16. Buat API Key untuk identitas pemakai API untuk mencegah data Bocor
+    Buat model plus migration untuk APIKEY
+    php artisam make:model ApiKey -m
+    setelah itu atur untuk ApiKeyResource fillamet untuk CRUD
+    php artisan make:filament-resource ApiKey
+    atur input dan column
+
+17. Buat Middleware untuk matching dengan key itu tadi
+    php artisan make:middleware CheckApiKey
+    Kemudian beri logika
+    public function handle(Request $request, Closure $next): Response
+    {
+        $key = $request->header('X-API-KEY');
+
+        if (!$key || !ApiKey::where('key',$key)->exists()) {
+            # code...
+            return response()->json(['message' => 'Unauthorized'],401);
+        }
+        return $next($request);
+    }
+
+18. Daftarkan middleware di app.php/bootstraps midleware alias
+    agar mudah pemanggilan di Route. Cth : 'api_key'
+    ->withMiddleware(function (Middleware $middleware): void {
+        $middleware->alias(([
+            'api_key' => \App\Http\Middleware\CheckApiKey::class
+        ]));
+    })
+
+19. Kemudian buat group pada route dan berikan middlewarenya
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Api;
 
+use App\Models\RecipePhoto;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -21,6 +22,7 @@ class RecipeResource extends JsonResource
             'url_file' => $this->url_file,
             'url_video' => $this->url_video,
             'about' => $this->about,
+            'photos' => RecipePhotoResource::collection($this->whenLoaded('photos')),
             'category' => new CategoryResource($this->whenLoaded('category')),
             'author' => new RecipeAuthorResource($this->whenLoaded('author')),
             'slug' => $this->slug,

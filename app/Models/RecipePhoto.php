@@ -10,8 +10,13 @@ class RecipePhoto extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $table = 'recipe_photos';
     protected $fillable = [
         'photo',
         'recipe_id'
     ];
+
+    public function recipe(){
+        return $this->belongsTo(Recipe::class,'recipe_id');
+    }
 }

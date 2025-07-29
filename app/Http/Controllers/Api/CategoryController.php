@@ -20,7 +20,7 @@ class CategoryController extends Controller
     public function show(Category $category)
     {
         // mengurangi lazy loading dengan load
-        $category->load('recipes');
+        $category->load(['recipes.category','recipes.author'])->orderBy('id');
         $category->loadCount('recipes');
         // ubah data kategori menjadi format JSON
         return new CategoryResource($category);

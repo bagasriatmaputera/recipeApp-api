@@ -37,7 +37,7 @@ class Recipe extends Model
     }
     public function photos()
     {
-        return $this->hasMany(RecipePhoto::class);
+        return $this->hasMany(RecipePhoto::class,'recipe_id');
     }
     public function tutorials()
     {

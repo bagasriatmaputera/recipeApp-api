@@ -81,4 +81,8 @@ public function index (Request $request){
     })
 
 19. Kemudian buat group pada route dan berikan middlewarenya
+    Route::middleware('api_key')->group(function(){
+        .....
+    });
 
+DONE Selesai
